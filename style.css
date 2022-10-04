@@ -1,0 +1,20 @@
+body {
+    background-color:#bfe2e2;
+}
+
+
+.task {
+    border-radius: 20px;
+    background: #457373;
+    padding: 20px;
+    width: 315px;
+    height: 189px;
+}
+
+.background {
+    height: 100vh; /*Necessary.  100vh = 100% of the viewport height*/
+    padding: 0; /* No padding */
+    margin: 0; /* No margins */
+    background: url("background3.svg") no-repeat;  
+    background-size: cover; /* Cover all available space*/
+} 
