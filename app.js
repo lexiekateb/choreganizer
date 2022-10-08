@@ -1,25 +1,24 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
-let userSchema = require('./schemas/user-schema');
-let taskSchema = require('./schemas/task-schema');
+let User = require('./schemas/user-schema');
+let Task = require('./schemas/task-schema');
+let fs = require('fs');
+const internal = require('stream');
 
 let app = express();
 //3000 is express server
 let PORT = process.env.PORT || 3000;
 //URI to access MongoDB cloud database
-const dbURI = "mongodb+srv://etruong1014:dc2WfCHoZKUIWpdy@cluster0.pmhb6ux.mongodb.net/choreganizer-db?retryWrites=true&w=majority";
-
-
-const User = mongoose.model('User', userSchema);
-const Task = mongoose.model('Task', taskSchema);
+const dbURI = "mongodb+srv://generaluser:WISc0SeWINaYf2wi@cluster0.pmhb6ux.mongodb.net/choreganizer-db?retryWrites=true&w=majority";
+// //URL to access local MongoDB database
 
 //Path to access static files
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
 
-let fs = require('fs');
-const internal = require('stream');
+//Variable to store current user
+let currentUser = null;
 
 //Connect to MongoDB database
 mongoose
@@ -31,16 +30,21 @@ mongoose
         console.log(err);
     });
 
+// User.collection.drop();
+// Task.collection.drop();
+
 // let testTask1 = new Task({
+//     userName: "testUser",
 //     task: "This is Task 1",
-//     timeLeft: new Date(),
+//     dueDate: new Date(),
 //     difficulty: 1,
 //     tags: ['tag1', 'tag2']
 // });
 
 // let testTask2 = new Task({
+//     userName: "testUser",
 //     task: "This is Task 2",
-//     timeLeft: new Date(),
+//     dueDate: new Date(),
 //     difficulty: 2,
 //     tags: ['tag3', 'tag4']
 // });
@@ -50,8 +54,7 @@ mongoose
 //     lastName: 'Doe',
 //     userName: 'testUser',
 //     password: 'testPassword',
-//     taskList: [testTask1, testTask2]
-// })
+// });
 
 // testTask1.save()
 //     .then(testTask1 => {
@@ -77,6 +80,18 @@ mongoose
 //         console.log(err);
 //     });
 
+// User.find({ $or: [
+//     //Find where task name or tags contain search term as a substring
+//     {"taskList.task": { $regex: ".*tag.*" }},
+//     {"taskList.tags": { $regex: ".*tag.*" }}
+// ]})
+// .then(user => {
+//     console.log(user);
+// })
+// .catch(err => {
+//     console.log(err);
+// })
+
 //Input login
 app.get('/login', function(req, res) {
     let userName = req.body.userName;
@@ -87,11 +102,18 @@ app.get('/login', function(req, res) {
         { userName: userName },
         { password: pass }
     ] })
-    .then( user => {
-
+    .then(user => {
+        //Log in if user is found
+        if (user != null) {
+            //Store username, will use for all task queries
+            currentUser = userName;
+        }
+        else {
+            console.log("User not found");
+        }
     })
     .catch(err => {
-
+        console.log(err);
     });
 
 });
@@ -100,14 +122,43 @@ app.get('/login', function(req, res) {
 app.post('/signup', function(req, res) {
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
+    let userName = req.body.userName;
     let pass = req.body.password;
     let reenterPass = req.body.reenterPass;
 
+    //Check if password has been reentered correctly
     if (pass === reenterPass) {
-        
+        //Username must be unique, cannot already by in use
+        User.findOne({ userName: userName })
+        .then(user => {
+            //Query is nonempty if username already exists
+            if (user != null){
+                console.log("Username is already in use");
+            }
+            else {
+                //Create and store new user
+                let newUser = new User({
+                    firstName: firstName,
+                    lastName: lastName,
+                    userName: userName,
+                    password: pass
+                });
+
+                newUser.save()
+                .then(newUser => {
+                    console.log("New user created");
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
     else {
-
+        
     }
 });
 
@@ -118,12 +169,57 @@ app.post('/signup/profile-image', function(req, res) {
 
 //Add task
 app.post('/tasks', function(req, res) {
+    let taskName = req.body.task;
+    let dueDate = req.body.dueDate;
+    let difficulty = req.body.difficulty;
+    let tags = req.body.tags;
 
+    //Assumes you can make a task on the day it is due
+    //Prevents creation of a task at least a day after it is due
+    if ((dueDate.getTime() - Date.now()) < (1000 * 60 * 60 * 24)) {
+        console.log("Invalid due date");
+    }
+    else {
+        //Create and store new task
+        let newTask = new Task({
+            userName: currentUser,
+            task: taskName,
+            dueDate: dueDate,
+            difficulty: difficulty,
+            tags: tags
+        });
+
+        newTask.save()
+        .then(newTask => {
+            console.log("Task created");
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
+    
 });
 
-//Search for task
+//Search for tasks
 app.get('/tasks/search', function(req, res) {
+    let searchTerm = req.body.searchTerm;
 
+    Task.find({ $and: [
+        //Find tasks under current user
+        { userName: currentUser },
+        { $or: [
+             //Find where task name or tags contain search as a substring
+            {task: { $regex: ".*" + searchTerm + ".*" }},
+            {tags: { $regex: ".*" + searchTerm + ".*" }}
+        ] }
+    ] })
+    .then(tasks => {
+
+    })
+    .catch(err => {
+        console.log(err);
+    });
 })
 
 //Sort tasks
@@ -135,23 +231,15 @@ app.listen(PORT, function() {
     console.log("Server is running on Port: " + PORT);
 });
 
-// const bookSchema = new mongoose.Schema({
-//     name: { type: String, required: true },
-//     author: String
-// });
+//Calculates remaining time for a task
+function calcDaysRemaining(currentDate, dueDate){
+    //Difference between dates in milliseconds
+    let rawRemainingTime = dueDate.getTime() - currentDate.getTime();
 
-// const Book = mongoose.model("Book", bookSchema);
-
-// const book = new Book({
-//     name: 'TestName2',
-//     author: 'TestAuthor2'
-// });
-
-// book.save()
-//     .then(book => {
-//         console.log(book);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
-
+    //Returns number of days remaining
+    //1000 is number of milliseconds in a second
+    //60 seconds in a minute
+    //60 minutes in an hour
+    //24 hours in a day
+    return Math.floor(rawRemainingTime / (1000 * 60 * 60 * 24));
+}
