@@ -4,20 +4,27 @@
         <title>Choreganizer Login</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="style.css">
+        <style>
+            h1 {text-align: center;}
+            form {text-align: center;}
+            label {
+                display: inline-block;
+                width: 100px;
+                text-align: right;
+            }
+        </style>
     </head>
 
     <body>
         <h1>Login</h1><br>
-        <form id="login">
-            <label for="user">Username:</label>
-            <input type="text" id="user"><br>
-            <label for="pwd">Password:</label>
-            <input type="password" id="pwd"><br>
+        <form id="login" method="POST">
+            <label for="user">Username:</label><input type="text" id="user"><br>
+                <label for="pwd">Password:</label><input type="password" id="pwd"><br>
             <button type="submit">Login</button>
         </form>
 
         <form action="signup.html" method="POST">
-            <button type="submit">Signup</button>
+            <button type="submit">New User?</button>
         </form>
         
     </body>
