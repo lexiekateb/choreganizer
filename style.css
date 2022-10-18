@@ -2,6 +2,16 @@ body {
     background-color:#bfe2e2;
 }
 
+input, textarea {
+    background-color: #accccc;
+    border: #bfe2e2;
+}
+
+button {
+    background: #a2c0c0;
+    border: #bfe2e2;
+}
+
 
 .task {
     border-radius: 20px;
