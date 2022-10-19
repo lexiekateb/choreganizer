@@ -7,6 +7,8 @@ const taskSchema = new mongoose.Schema({
     //Name of the task
     task: { type: String, required: true },
     dueDate: Date,
+    //Time remaining is measured in days
+    timeRemaining: Number,
     difficulty: Number,
     tags: [String]
 });
