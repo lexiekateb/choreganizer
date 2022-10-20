@@ -14,7 +14,7 @@ let PORT = process.env.PORT || 3000;
 const dbURI = "mongodb+srv://generaluser:WISc0SeWINaYf2wi@cluster0.pmhb6ux.mongodb.net/choreganizer-db?retryWrites=true&w=majority";
 
 //Path to access static files
-app.use(express.static(__dirname));
+app.use(express.static(__dirname, { index: 'login.html' }));
 //Used to parse frontend requests
 app.use(bodyParser.json());
 
@@ -96,13 +96,13 @@ mongoose
 // })
 
 //Input login
-app.get('/login', function(req, res) {
+app.post('/login', function(req, res) {
     let userName = req.body.userName;
     let pass = req.body.password;
-
+    
     //Check for valid inputs
     if (userName.length === 0 || pass.length === 0) {
-        console.log("Please enter all fields");
+        res.send("Please enter username and password");
     }
     else {
         //Search for matching login credentials
@@ -115,16 +115,16 @@ app.get('/login', function(req, res) {
             if (user != null) {
                 //Store username, will use for all task queries
                 currentUser = userName;
+                res.send("Successful login");
             }
             else {
-                console.log("User not found");
+                res.send("User not found");
             }
         })
         .catch(err => {
             console.log(err);
         });
     }
-
 });
 
 //Sign up

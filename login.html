@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- JQuery CDN -->
+        <script
+            src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
         <title>Choreganizer Login</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="style.css">
@@ -17,16 +22,24 @@
 
     <body>
         <h1>Login</h1><br>
-        <form id="login" method="POST">
+        <form id="login">
             <label for="user">Username:</label><input type="text" id="user"><br>
                 <label for="pwd">Password:</label><input type="password" id="pwd"><br>
-            <button type="submit">Login</button>
+
+            <!-- This button will automatically send a 'submit' request -->
+            <!-- Change its type to 'button' or have ajax accept a 'submit'
+            and preventDefault to prevent refresh of page before request is
+            handled -->
+            <!-- Because this button submits the form, ajax should use the 
+            form id instead of the button id-->
+            <button id="login-button">Login</button>
         </form>
 
         <form action="signup.html" method="POST">
-            <button type="submit">New User?</button>
+            <button id="newuser-button" type="submit">New User?</button>
         </form>
-        
+
+        <script src="scripts/scripts.js"></script>     
     </body>
 
 </html>
