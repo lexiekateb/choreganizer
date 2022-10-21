@@ -127,42 +127,49 @@ app.post('/login', function(req, res) {
     }
 });
 
+app.post('/new-user', function(req, res) {
+    res.sendFile(__dirname + '/signup.html');
+    res.end();
+})
+
 //Sign up
 app.post('/signup', function(req, res) {
-    let firstName = req.body.firstName;
-    let lastName = req.body.lastName;
+    // let firstName = req.body.firstName;
+    // let lastName = req.body.lastName;
     let userName = req.body.userName;
     let pass = req.body.password;
-    let reenterPass = req.body.reenterPass;
+    // let reenterPass = req.body.reenterPass;
 
     //Check for valid fields
-    if (firstName.length === 0 || lastName.length === 0
-        || userName.length === 0 || pass.length === 0
-        || reenterPass.length === 0){
-            console.log("Please enter info for all fields");
+    if (/*firstName.length === 0 || lastName.length === 0
+        || */userName.length === 0 || pass.length === 0
+        /*|| reenterPass.length === 0*/){
+            res.send("Please enter info for all fields");
         }
     else {
         //Check if password has been reentered correctly
-        if (pass === reenterPass) {
+        if (/*pass === reenterPass*/ true) {
             //Username must be unique, cannot already by in use
             User.findOne({ userName: userName })
             .then(user => {
                 //Query is nonempty if username already exists
                 if (user != null){
-                    console.log("Username is already in use");
+                    res.send("Username is already in use");
                 }
                 else {
                     //Create and store new user
                     let newUser = new User({
-                        firstName: firstName,
-                        lastName: lastName,
+                        firstName: 'testFirst',
+                        lastName: 'testLast',
                         userName: userName,
                         password: pass
                     });
 
                     newUser.save()
                     .then(newUser => {
-                        console.log("New user created");
+                        res.send("New user created");
+                        res.sendFile(__dirname + '/login.html');
+                        res.end();
                     })
                     .catch(err => {
                         console.log(err);
@@ -174,7 +181,7 @@ app.post('/signup', function(req, res) {
             });
         }
         else {
-            console.log("Passwords do not match");
+            res.send("Passwords do not match");
         }
     }
 });
