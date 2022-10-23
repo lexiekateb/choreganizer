@@ -56,5 +56,27 @@ $(function() {
                 }
             }
         });
-    })
+    });
+
+    $('#createTaskButton').on('click', function() {
+
+        let taskName = $('#taskName').val().trim();
+        let difficulty = $('#difficulty').val().trim();
+        let dueDate = $('#date').val().trim();
+
+        $.ajax({
+            url: '/taskcreate',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                taskName: taskName,
+                difficulty: difficulty,
+                dueDate: dueDate
+            }),
+            success: function(response) {
+                console.log(response);
+            }
+        });
+    });
+
 });
