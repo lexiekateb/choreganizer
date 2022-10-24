@@ -5,6 +5,7 @@ var PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
+app.listen(PORT)
 
 var fs = require('fs');
 const { userInfo, type } = require('os');
