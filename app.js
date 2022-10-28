@@ -115,7 +115,9 @@ app.post('/login', function(req, res) {
             if (user != null) {
                 //Store username, will use for all task queries
                 currentUser = userName;
-                res.send("Successful login");
+                //Redirect to main page
+                res.send("Logging in");
+                res.end();
             }
             else {
                 res.send("User not found");
@@ -128,7 +130,8 @@ app.post('/login', function(req, res) {
 });
 
 app.post('/new-user', function(req, res) {
-    res.sendFile(__dirname + '/signup.html');
+    //Redirect to signup page
+    res.send("Redirecting to signup");
     res.end();
 })
 
@@ -167,8 +170,8 @@ app.post('/signup', function(req, res) {
 
                     newUser.save()
                     .then(newUser => {
+                        //Redirect back to login page
                         res.send("New user created");
-                        res.sendFile(__dirname + '/login.html');
                         res.end();
                     })
                     .catch(err => {
@@ -192,29 +195,32 @@ app.post('/signup/profile-image', function(req, res) {
 });
 
 //Add task
-app.post('/tasks', function(req, res) {
-    let taskName = req.body.task;
-    let dueDate = req.body.dueDate;
+app.post('/taskcreate', function(req, res) {
+    let taskName = req.body.taskName;
+    //Convert date milliseconds to object
+    let dueDate = new Date(req.body.dueDate);
     let timeRemaining = null;
     let difficulty = req.body.difficulty;
-    let tags = req.body.tags;
+    //let tags = req.body.tags;
 
     //Checks for valid date before calculating remaining time
     if (dueDate !== null) {
-        timeRemaining = calcDaysRemaining(Date.now(), duedate);
+        //currentDate will be considered the start of the current date
+        timeRemaining = calcDaysRemaining(new Date().setUTCHours(0, 0, 0, 0),
+        dueDate);
     }
     else {
-        console.log("Please enter a due date");
+        res.send("Please enter a due date");
     }
 
     //Assumes you can make a task on the day it is due
     //Prevents creation of a task at least a day after it is due
     if (taskName.length === 0 || dueDate === null || difficulty === null
-        || tags.length === 0) {
-            console.log("Please enter info for all fields");
+        /*|| tags.length === 0*/) {
+            res.send("Please enter info for all fields");
         }
     else if ((dueDate.getTime() - Date.now()) < (1000 * 60 * 60 * 24)) {
-        console.log("Invalid due date");
+        res.send("Invalid due date");
     }
     else {
         //Create and store new task
@@ -224,12 +230,12 @@ app.post('/tasks', function(req, res) {
             dueDate: dueDate,
             timeRemaining: timeRemaining,
             difficulty: difficulty,
-            tags: tags
+            tags: ["testTag"]
         });
 
         newTask.save()
         .then(newTask => {
-            console.log("Task created");
+            res.send("Task created");
         })
         .catch(err => {
             console.log(err);
@@ -278,7 +284,8 @@ app.listen(PORT, function() {
 //Calculates remaining time for a task
 function calcDaysRemaining(currentDate, dueDate) {
     //Difference between dates in milliseconds
-    let rawRemainingTime = dueDate.getTime() - currentDate.getTime();
+    //currentDate is a number, not a Date object
+    let rawRemainingTime = dueDate.getTime() - currentDate;
 
     //Returns number of full days remaining
     //1000 is number of milliseconds in a second

@@ -14,3 +14,5 @@ npm install
 
 Code is running on
 + http://localhost:3000/
+
+To login with a premade account, use "testUser" for the username and "testPassword" for the password.

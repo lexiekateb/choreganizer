@@ -6,7 +6,10 @@
         <title>Choreganizer Main Screen</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="style.css" />
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script
+            src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
     </head>
 
@@ -20,7 +23,7 @@
                 <button id="createTaskButton" type="button" onclick="openForm()">Create Task</button>
                 <div class="popupFormContainer">
                     <div class="taskPopup" id="taskPopupForm">
-                        <form action="/action_page.php" class="formContainer">
+                        <form id="createTaskForm" class="formContainer">
                             <h2>create your task!</h2>
                             <label for="taskName">
                                 <strong>task name</strong>
@@ -30,7 +33,8 @@
                             <label for="difficulty">
                                 <strong>difficulty</strong>
                             </label>
-                            <input type="number" id="taskDifficulty" placeholder="task difficulty here" name="taskDifficulty" required>
+                            <input type="number" id="taskDifficulty" placeholder="task difficulty here" name="taskDifficulty" 
+                            min="1" max="10" required>
 
                             <label for="dueDate">
                                 <strong>due date</strong>
@@ -51,7 +55,7 @@
         </div>
 
         <script src="jquery.js"></script>
-        <script src="scripts.js"></script>
+        <script src="scripts/scripts.js"></script>
     </body>
 
 </html>
