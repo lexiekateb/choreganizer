@@ -129,6 +129,7 @@ app.post('/login', function(req, res) {
     }
 });
 
+// Make a new user account
 app.post('/new-user', function(req, res) {
     //Redirect to signup page
     res.send("Redirecting to signup");
@@ -192,6 +193,18 @@ app.post('/signup', function(req, res) {
 //Upload profile image
 app.post('/signup/profile-image', function(req, res) {
 
+});
+
+//Activate upon main page reload
+app.get('/main', function(req, res) {
+    //Find all tasks under current user, send them
+    Task.find({ username: currentUser })
+    .then(tasks => {
+        res.send(tasks);
+    })
+    .catch(err => {
+        console.log(err);
+    })
 });
 
 //Add task
