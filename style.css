@@ -1,21 +1,94 @@
 body {
     background-color:#bfe2e2;
-}
-
-input, textarea {
-    background-color: #accccc;
-    border: #bfe2e2;
+    height: 100vh; /*Necessary.  100vh = 100% of the viewport height*/
+    padding: 0; /* No padding */
+    margin: 0; /* No margins */
+    background: url("main.svg") no-repeat;  
+    background-size: cover; /* Cover all available space*/
 }
 
 button {
     background: #a2c0c0;
-    border: #bfe2e2;
 }
 
-.taskPopupForm {
-    display: none;
+label {
+    width:auto;
+    float: left;
 }
 
+#taskContainer {
+    height:auto;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 50px;
+    width:130vh;
+    position:absolute;
+    top:10vh;
+    left:20vh;
+}
+
+#header {
+    font-size:50px;
+}
+
+
+#taskPopupForm {
+    display:none;
+    font-size: large;
+    text-align: left;
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    position: absolute;
+    left: 72vh;
+    top: 25vh;
+    width: 40vh;
+    padding: 1%;
+    height: auto;
+    border: solid 1px black;
+    background: #A4BDBE;
+}
+
+#cancel {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    font-size: small;
+    height: auto;
+    width: auto;
+    background: #D5B9B1;
+    border: solid 1px black;
+    position: absolute;
+    top: 5%;
+    left: 95%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#cancel:hover {
+    background: #b5887b;
+}
+
+#submit {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: medium;
+    height: auto;
+    width: 15vh;
+    background: #D5B9B1;
+    border: solid 1px black;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#createButton {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    position:absolute;
+    top:21vh;
+    left:20vh;
+    border: solid 1px black;
+}
+
+#createButton:hover {
+    background: #578f8f;
+}
 
 .task {
     border-radius: 20px;
@@ -24,11 +97,3 @@ button {
     width: 315px;
     height: 189px;
 }
-
-.background {
-    height: 100vh; /*Necessary.  100vh = 100% of the viewport height*/
-    padding: 0; /* No padding */
-    margin: 0; /* No margins */
-    background: url("background3.svg") no-repeat;  
-    background-size: cover; /* Cover all available space*/
-} 

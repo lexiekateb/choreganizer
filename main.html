@@ -6,7 +6,16 @@
         <title>Choreganizer Main Screen</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="style.css" />
-        <script
+        <script>
+            function openForm() {
+                document.getElementById("taskPopupForm").style.display = "block";
+            }
+
+            function closeForm() {
+                document.getElementById("taskPopupForm").style.display = "none";
+            }
+        </script>
+        <script>
             src="https://code.jquery.com/jquery-3.6.1.js"
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
             crossorigin="anonymous"></script>
@@ -14,41 +23,48 @@
     </head>
 
     <body>
-        <div class="background"></div>
         <div class="user-profie">
             <div class="username"></div>
         </div>
         <div class="container">
+
+            <div id="taskContainer">
+                <h1 id="header">tasks</h1>
+            </div>
+
             <div class="creatingTasks">
-                <button id="createTaskButton" type="button" onclick="openForm()">Create Task</button>
+                <button id="createButton" onclick="openForm()">new task</button>
                 <div class="popupFormContainer">
                     <div class="taskPopup" id="taskPopupForm">
+                        <button id="cancel" onclick="closeForm()">x</button>
                         <form id="createTaskForm" class="formContainer">
+                            <br>
                             <h2>create your task!</h2>
+                            <br>
                             <label for="taskName">
                                 <strong>task name</strong>
-                            </label>
+                            </label><br>
                             <input type="text" id="taskName" placeholder="task name here" name="taskName" required>
 
+                            <br>
                             <label for="difficulty">
                                 <strong>difficulty</strong>
-                            </label>
-                            <input type="number" id="taskDifficulty" placeholder="task difficulty here" name="taskDifficulty" 
+                            </label><br>
+                            <input type="number" id="taskDifficulty" placeholder="1-10" name="taskDifficulty" 
                             min="1" max="10" required>
 
+                            <br>
                             <label for="dueDate">
                                 <strong>due date</strong>
-                            </label>
+                            </label><br>
                             <input type="date" id="taskDueDate" placeholder="due date here" name="taskDueDate" required>
-                            <button type="submit" class="button">create task!</button>
-                            <button type="button" class="button" onclick="closeForm()">cancel</button>
+                            <br>
+                            <br>
+                            <br>
+                            <button type="submit" id="submit" onclick="closeTask()">create task!</button>
                         </form>
                     </div>
                 </div>
-            </div>
-
-            <div id="deletingTasks">
-                <button type="button" id="deleteButton"></button>
             </div>
     
             <div class="tasks" id="tasks"></div>

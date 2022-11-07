@@ -1,0 +1,78 @@
+h1 {text-align: center;}
+
+form {text-align: center;}
+
+label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+
+#container {
+    justify-content: center;
+}
+
+body {
+    height: 100vh; /*Necessary.  100vh = 100% of the viewport height*/
+    padding: 0; /* No padding */
+    margin: 0; /* No margins */
+    background: url("background.svg") no-repeat;  
+    background-size: cover; /* Cover all available space*/
+    text-align: center;
+}
+
+#header {
+    position: relative;
+    top: 13vh;
+    font-size: 50px
+}
+
+#loginForm {
+    font-size: large;
+    text-align: center;
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    position: relative;
+    left: 72vh;
+    top: 10vh;
+    width: 40vh;
+    padding: 1%;
+    height: auto;
+    border: solid 1px black;
+    background: #A4BDBE;
+}
+
+#loginForm button {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: medium;
+    height: auto;
+    width: 10vh;
+    background: #D5B9B1;
+    border: solid 1px black;
+}
+
+#loginForm button:hover {
+    background: #c58b7b;
+}
+
+#loginWords {
+    font-size: xx-large;
+}
+
+#newuser {
+    position: relative;
+    top: 15vh;
+    left: 1vh;
+}
+
+#newuser button {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+    height: auto;
+    width: 15vh;
+    background: #D5B9B1;
+    border: solid 1px black;
+}
+
+#newuser button:hover {
+    background: #c58b7b;
+}

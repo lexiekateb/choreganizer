@@ -8,27 +8,30 @@
             crossorigin="anonymous"></script>
         <title>Choreganizer Signup</title>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="style.css">
-        <style>
-            h1 {text-align: center;}
-            form {text-align: center;}
-            label {
-                display: inline-block;
-                width: 100px;
-                text-align: right;
-            }
-        </style>
+        <link rel="stylesheet" href="styleSign.css">
     </head>
 
     <body>
-        <h1>Signup</h1><br>
+        <div id="container">
+            <div id="intro">
+                <h1>welcome to choreganizer!</h1><br>
+                <h2>just a few questions, and you can get started</h2>
+            </div>
+
+        <div id="signForm">
         <form id="signup">
             <div>
-                <label for="user">Username:</label><input type="text" id="user"><br>
-                <label for="pwd">Password:</label><input type="password" id="pwd"><br>
-                <button>Create Account</button>
+                <br>
+                <label for="user">username:</label><input type="text" id="user"><br>
+                <br>
+                <label for="pwd">password:</label><input type="password" id="pwd"><br>
+                <br>
+                <button>create account</button>
             </div>
         </form>
+        </div>
+
+        </div>
 
         <script src="scripts/signup-scripts.js"></script>
     </body>
