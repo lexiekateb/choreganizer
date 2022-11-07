@@ -33,6 +33,7 @@ app.post('/taskcreate', function(req, res) {
         dueDate: taskDate
     });
 
+    document.getElementById("taskPopupForm").style.display = "none";
     res.send('created task');
 
 });
