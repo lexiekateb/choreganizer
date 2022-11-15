@@ -5,7 +5,6 @@ let Task = require('../schemas/task-schema');
 //Activate upon main page reload
 router.get('/main', function(req, res) {
     //Find all tasks under current user, send them
-    console.log(req.app.locals.currentUser);
     Task.find({ userName: req.app.locals.currentUser })
     .then(tasks => {
         res.send(tasks);

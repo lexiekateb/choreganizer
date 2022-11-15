@@ -36,8 +36,8 @@ label {
     font-size: large;
     text-align: left;
     font-family: Calibri, 'Trebuchet MS', sans-serif;
-    position: absolute;
-    left: 72vh;
+    position: relative;
+    margin: auto;
     top: 25vh;
     width: 40vh;
     padding: 1%;
