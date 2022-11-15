@@ -36,7 +36,9 @@ router.post('/taskcreate', function(req, res) {
 
     //Assumes you can make a task on the day it is due
     //Prevents creation of a task at least a day after it is due
-    if (taskName.length === 0 || dueDate === null || difficulty === null || tags.length === 0) {
+    if (taskName.length === 0 || dueDate === null || difficulty === null 
+        //|| tags.length === 0
+            ) {
             res.send("Please enter info for all fields");
         }
     else if ((dueDate.getTime() - Date.now()) < (1000 * 60 * 60 * 24)) {
