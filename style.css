@@ -90,6 +90,18 @@ label {
     background: #578f8f;
 }
 
+#logoutButton {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    position:absolute;
+    top:17vh;
+    left:20vh;
+    border: solid 1px black;
+}
+
+#logoutButton:hover {
+    background: #578f8f;
+}
+
 .task {
     border-radius: 20px;
     background: #457373;
