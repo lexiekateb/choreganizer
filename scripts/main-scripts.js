@@ -15,10 +15,14 @@ $(function() {
 
         let taskName = $('#taskName').val().trim();
         let difficulty = $('#taskDifficulty').val();
-        let tags = $('#tags').val();
         //Parsed date is number of milliseconds since Jan 1, 1970
         let dueDate = Date.parse($('#taskDueDate').val())
-
+        //Make array for tags
+        let tags = [];
+        //Iterate through list of tags and add to array
+        $('#tags').find("input").each(function() {
+            tags.push($(this).val());
+        })
 
         $.ajax({
             url: '/taskcreate',
@@ -36,7 +40,7 @@ $(function() {
                     $('#taskName').val("");
                     $('#taskDifficulty').val("");
                     $('#taskDueDate').val("");
-                    $('#tags').val("");
+                    $('#tags').html('');
 
                     alert(response);
                 }

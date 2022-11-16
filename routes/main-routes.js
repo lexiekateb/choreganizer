@@ -34,13 +34,12 @@ router.post('/taskcreate', function(req, res) {
     }
 
     //Assumes you can make a task on the day it is due
-    //Prevents creation of a task at least a day after it is due
-    if (taskName.length === 0 || dueDate === null || difficulty === null 
-        //|| tags.length === 0
-            ) {
+    //Prevents creation of a task after the day it is due
+    if (taskName.length === 0 || dueDate === null || difficulty === null) {
             res.send("Please enter info for all fields");
         }
-    else if ((dueDate.getTime() - Date.now()) < (1000 * 60 * 60 * 24)) {
+    else if (timeRemaining < 0) {
+        console.log(timeRemaining);
         res.send("Invalid due date");
     }
     else {
@@ -93,11 +92,6 @@ router.get('/tasks/search', function(req, res) {
     }
 });
 
-//Upload profile image
-router.post('/signup/profile-image', function(req, res) {
-
-});
-
 //Sort tasks
 router.put('/tasks/sort', function(req, res) {
 
@@ -107,14 +101,15 @@ router.put('/tasks/sort', function(req, res) {
 function calcDaysRemaining(currentDate, dueDate) {
     //Difference between dates in milliseconds
     //currentDate is a number, not a Date object
-    let rawRemainingTime = dueDate.getTime() - currentDate;
+    let rawRemainingTime = dueDate.setUTCHours(0, 0, 0, 0) - currentDate;
 
     //Returns number of full days remaining
     //1000 is number of milliseconds in a second
     //60 seconds in a minute
     //60 minutes in an hour
     //24 hours in a day
-    return Math.floor(rawRemainingTime / (1000 * 60 * 60 * 24));
+    //Round is used due to discrepancies from DST
+    return Math.round(rawRemainingTime / (1000 * 60 * 60 * 24));
 }
 
 module.exports = router;

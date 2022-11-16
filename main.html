@@ -20,7 +20,9 @@
             }
 
             function createtag() {
-                document.getElementById("tags").innerHTML += "<li><input type='text' id='tag" + counter + "' placeholder='tag'></li>";
+                var newTag = document.createElement("li");
+                newTag.innerHTML += "<input type='text' id='tag" + counter + "' placeholder='tag'>";
+                document.getElementById("tags").appendChild(newTag);
                 counter++;
             }
         </script>
@@ -92,9 +94,6 @@
                     </div>
                 </div>
             </div>
-            
-            
-            
             
             <div class="tasks" id="tasks"></div>
             

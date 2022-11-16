@@ -24,7 +24,7 @@ body {
 #header {
     position: relative;
     top: 13vh;
-    font-size: 50px
+    font-size: 50px;
 }
 
 #loginForm {
@@ -61,7 +61,7 @@ body {
 #newuser {
     position: relative;
     top: 15vh;
-    left: 1vh;
+    margin: auto;
 }
 
 #newuser button {
