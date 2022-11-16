@@ -15,6 +15,7 @@ $(function() {
 
         let taskName = $('#taskName').val().trim();
         let difficulty = $('#taskDifficulty').val();
+        let tags = $('#tags').val();
         //Parsed date is number of milliseconds since Jan 1, 1970
         let dueDate = Date.parse($('#taskDueDate').val())
 
@@ -26,7 +27,8 @@ $(function() {
             data: JSON.stringify({
                 taskName: taskName,
                 difficulty: difficulty,
-                dueDate: dueDate
+                dueDate: dueDate,
+                tags: tags
             }),
             success: function(response) {
                 if (response === "Task created") {
@@ -34,6 +36,7 @@ $(function() {
                     $('#taskName').val("");
                     $('#taskDifficulty').val("");
                     $('#taskDueDate').val("");
+                    $('#tags').val("");
 
                     alert(response);
                 }

@@ -21,7 +21,7 @@ router.post('/taskcreate', function(req, res) {
     let dueDate = new Date(req.body.dueDate);
     let timeRemaining = null;
     let difficulty = req.body.difficulty;
-    //let tags = req.body.tags;
+    let tags = req.body.tags;
 
     //Checks for valid date before calculating remaining time
     if (dueDate !== null) {
@@ -35,8 +35,9 @@ router.post('/taskcreate', function(req, res) {
 
     //Assumes you can make a task on the day it is due
     //Prevents creation of a task at least a day after it is due
-    if (taskName.length === 0 || dueDate === null || difficulty === null
-        /*|| tags.length === 0*/) {
+    if (taskName.length === 0 || dueDate === null || difficulty === null 
+        //|| tags.length === 0
+            ) {
             res.send("Please enter info for all fields");
         }
     else if ((dueDate.getTime() - Date.now()) < (1000 * 60 * 60 * 24)) {
@@ -50,7 +51,7 @@ router.post('/taskcreate', function(req, res) {
             dueDate: dueDate,
             timeRemaining: timeRemaining,
             difficulty: difficulty,
-            tags: ["testTag"]
+            tags: tags
         });
 
         newTask.save()
