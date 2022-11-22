@@ -20,10 +20,16 @@
             }
 
             function createtag() {
-                var newTag = document.createElement("li");
-                newTag.innerHTML += "<input type='text' id='tag" + counter + "' placeholder='tag'>";
-                document.getElementById("tags").appendChild(newTag);
-                counter++;
+                // Restrict number of tags to max of 5
+                if (counter < 5) {
+                    var newTag = document.createElement("li");
+                    newTag.innerHTML += "<input type='text' id='tag" + counter + "' placeholder='tag'>";
+                    document.getElementById("tags").appendChild(newTag);
+                    counter++;
+                }
+                else {
+                    alert("You can add a maximum of 5 tags");
+                }
             }
         </script>
         <script
