@@ -6,6 +6,9 @@ $(function() {
         success: function(response) {
             console.log(response);
             let taskGrid = $('#taskGrid');
+            // Array of tasks that are close to being due for alert
+            let riskyTasks = [];
+            var riskyTasksAlert = "";
 
             // Clear all tasks
             taskGrid.html('');
@@ -28,6 +31,9 @@ $(function() {
                 else {
                     // Set color of task background to red
                     taskColor = "background:#b5887b"
+                    // Add task to array
+                    riskyTasks.push({ taskName: task.task, 
+                    timeRemaining: task.timeRemaining });
                 }
 
                 // Append the task to the grid
@@ -41,7 +47,18 @@ $(function() {
                     Tags: ' + task.tags +
                     '<button class="deleteTaskButton" type="button" onclick="deleteTask(this)">X</button>\
                 </div>');
-            })
+            });
+
+            // Display alert for tasks that are close to due date
+            if (riskyTasks.length > 0) {
+                // Append task name and time remaining to string
+                riskyTasks.forEach(task => {
+                    riskyTasksAlert += task['taskName'] + ": " +
+                    task['timeRemaining'] + " days remaining\n";
+                })
+                // Display alert
+                alert("WARNING: TASKS MUST BE COMPLETED SOON\n" + riskyTasksAlert);
+            }
         }
     });
 
