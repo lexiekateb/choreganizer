@@ -40,58 +40,6 @@ mongoose
         console.log(err);
     });
 
-// User.collection.drop();
-// Task.collection.drop();
-
-// let testTask1 = new Task({
-//     userName: "testUser",
-//     task: "This is Task 1",
-//     dueDate: new Date(),
-//     timeRemaining: 10,
-//     difficulty: 1,
-//     tags: ['tag1', 'tag2']
-// });
-
-// let testTask2 = new Task({
-//     userName: "testUser",
-//     task: "This is Task 2",
-//     dueDate: new Date(),
-//     timeRemaining: 5,
-//     difficulty: 2,
-//     tags: ['tag3', 'tag4']
-// });
-
-// let testUser = new User({
-//     firstName: 'John',
-//     lastName: 'Doe',
-//     userName: 'testUser',
-//     password: 'testPassword',
-// });
-
-// testTask1.save()
-//     .then(testTask1 => {
-//         console.log(testTask1);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
-
-// testTask2.save()
-//     .then(testTask2 => {
-//         console.log(testTask2);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
-
-// testUser.save()
-//     .then(testUser => {
-//         console.log(testUser);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
-
 app.listen(PORT, function() {
     console.log("Server is running on Port: " + PORT);
 });

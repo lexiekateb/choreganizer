@@ -103,6 +103,45 @@ label {
     background: #578f8f;
 }
 
+#sortTypes {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    position: relative;
+    top:17vh;
+    float:right;
+}
+
+#sort {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    position: relative;
+    top:17vh;
+    float:right;
+    margin-right:20px;
+    border: solid 1px black;
+}
+
+#sort:hover {
+    background: #578f8f;
+}
+
+#searchInput {
+    position: relative;
+    top:17vh;
+    float:right;
+}
+
+#search {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    position: relative;
+    top:17vh;
+    float:right;
+    border: solid 1px black;
+}
+
+#search:hover {
+    background: #578f8f;
+}
+
+
 #taskGrid {
     display: grid;
     grid-template-columns: 315px 315px 315px 315px;

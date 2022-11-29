@@ -59,9 +59,27 @@
                 <a href="login.html"><button id="logoutButton" type="button">logout</button></a>
             </div>
 
+            <div class="searchdiv">
+                <form id="searchform">
+                    <button type="submit" id="search">Search</button>
+                    <input type="text" id="searchInput">
+                </form>
+            </div>
+
+            <div class="sortdiv">
+                <form id="sortform">
+                    <button type="submit" id="sort">Sort</button>
+                    <select id="sortTypes">
+                        <option value="timeAsc">Sort by Time Remaining (Ascending)</option>
+                        <option value="timeDsc">Sort by Time Remaining (Descending)</option>
+                        <option value="diffAsc">Sort by Difficulty (Ascending)</option>
+                        <option value="diffDsc">Sort by Difficulty (Descending)</option>
+                    </select>
+                </form>
+            </div>
+
             <div class="creatingTasks">
 
-                
                 <button id="createButton" onclick="openForm()">new task</button>
                 <div class="popupFormContainer">
                     <div class="taskPopup" id="taskPopupForm">

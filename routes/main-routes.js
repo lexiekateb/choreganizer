@@ -103,8 +103,8 @@ router.delete('/deletetask', function(req, res) {
     });
 });
 
-//Search for tasks
-router.get('/tasks/search', function(req, res) {
+//Search for tasks, searches in both task name and task tags
+router.post('/tasks/search', function(req, res) {
     let searchTerm = req.body.searchTerm;
 
     //Check to see if search term has been entered
@@ -126,13 +126,66 @@ router.get('/tasks/search', function(req, res) {
         });
     }
     else {
-        console.log("Please enter a search term");
+        // Send all tasks if no term is entered
+        Task.find({ userName: req.app.locals.currentUser })
+        .then(tasks => {
+            res.send(tasks);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 });
 
 //Sort tasks
-router.put('/tasks/sort', function(req, res) {
+router.post('/tasks/sort', function(req, res) {
+    let sortType = req.body.sortType;
 
+    // Check for the type of sorting
+    // Sort by time remaining (ascending)
+    if (sortType === "timeAsc") {
+        Task.find({ userName: req.app.locals.currentUser })
+        .sort({ timeRemaining: 1 })
+        .then(tasks => {
+            res.send(tasks);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+    // Sort by time remaining (descending)
+    else if (sortType === "timeDsc") {
+        Task.find({ userName: req.app.locals.currentUser })
+        .sort({ timeRemaining: -1 })
+        .then(tasks => {
+            res.send(tasks);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+    // Sort by difficulty (ascending)
+    else if (sortType === "diffAsc") {
+        Task.find({ userName: req.app.locals.currentUser })
+        .sort({ difficulty: 1 })
+        .then(tasks => {
+            res.send(tasks);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+    // Sort by difficulty (descending)
+    else if (sortType === "diffDsc") {
+        Task.find({ userName: req.app.locals.currentUser })
+        .sort({ difficulty: -1 })
+        .then(tasks => {
+            res.send(tasks);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 });
 
 //Calculates remaining time for a task

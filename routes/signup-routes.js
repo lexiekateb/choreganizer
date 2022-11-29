@@ -4,21 +4,18 @@ let User = require('../schemas/user-schema');
 
 //Sign up
 router.post('/signup', function(req, res) {
-    // let firstName = req.body.firstName;
-    // let lastName = req.body.lastName;
     let userName = req.body.userName;
     let pass = req.body.password;
-    // let reenterPass = req.body.reenterPass;
+    let reenterPass = req.body.reenterPass;
 
     //Check for valid fields
-    if (/*firstName.length === 0 || lastName.length === 0
-        || */userName.length === 0 || pass.length === 0
-        /*|| reenterPass.length === 0*/){
+    if (userName.length === 0 || pass.length === 0
+        || reenterPass.length === 0){
             res.send("Please enter info for all fields");
         }
     else {
         //Check if password has been reentered correctly
-        if (/*pass === reenterPass*/ true) {
+        if (pass === reenterPass) {
             //Username must be unique, cannot already by in use
             User.findOne({ userName: userName })
             .then(user => {

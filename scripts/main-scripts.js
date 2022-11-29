@@ -27,6 +27,9 @@ $(function() {
                 else if (task.timeRemaining > 0) {
                     // Set color of task background to light red
                     taskColor = "background:#D5B9B1";
+                    // Add task to array
+                    riskyTasks.push({ taskName: task.task, 
+                    timeRemaining: task.timeRemaining });
                 }
                 else {
                     // Set color of task background to red
@@ -147,6 +150,7 @@ $(function() {
         });
     });
 
+    // Delete a task
     // Listen for click from button descendents of taskGrid
     $('#taskGrid').on('click', 'button', function() {
         // Store parent of button to delete it later
@@ -167,4 +171,86 @@ $(function() {
             }
         });
     });
+
+    // Sort a task
+    $('#sortform').on('submit', function(event) {
+        event.preventDefault();
+
+        let sortType = $('#sortTypes').val();
+
+        $.ajax({
+            url: '/tasks/sort',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ sortType: sortType }),
+            success: function(response) {
+                let taskGrid = $('#taskGrid');
+                
+                // Clear all tasks
+                taskGrid.html('');
+
+                // Display all desired tasks
+                taskDisplay(response, taskGrid);
+            }
+        })
+    });
+
+    $('#searchform').on('submit', function(event) {
+        event.preventDefault();
+
+        let searchInput = $('#searchInput');
+        let searchTerm = searchInput.val().trim();
+
+        $.ajax({
+            url: '/tasks/search',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ searchTerm: searchTerm }),
+            success: function(response) {
+                let taskGrid = $('#taskGrid');
+                
+                // Clear all tasks
+                taskGrid.html('');
+
+                // Display all desired tasks
+                taskDisplay(response, taskGrid);
+            }
+        })
+    })
 });
+
+// Used for displaying tasks upon sort and search
+function taskDisplay(response, taskGrid) {
+    // Iterate through each task
+    response.forEach(function(task) {
+        var taskColor;
+        if (task.timeRemaining > 7) {
+            // Set color of task background to green
+            taskColor = "background:#457373";
+        }
+        else if (task.timeRemaining > 3) {
+            // Set color of task background to light green
+            taskColor = "background:#a2c0c0";
+        }
+        else if (task.timeRemaining > 0) {
+            // Set color of task background to light red
+            taskColor = "background:#D5B9B1";
+        }
+        else {
+            // Set color of task background to red
+            taskColor = "background:#b5887b"
+        }
+
+        // Append the task to the grid
+        // Due date should be split by 'T' to remove time section
+        taskGrid.append('\
+        <div class="task" id="' + task._id + '" style="' + taskColor + '">\
+            <div class="taskHeader">' + task.task + '</div><br>\
+            Due Date: ' + task.dueDate.split('T')[0] + '<br>\
+            Time Remaining: ' + task.timeRemaining + '<br>\
+            Difficulty: ' + task.difficulty + '<br>\
+            Tags: ' + task.tags +
+            '<button class="deleteTaskButton" type="button" onclick="deleteTask(this)">X</button>\
+        </div>');
+    });
+}
