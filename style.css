@@ -3,7 +3,7 @@ body {
     height: 100vh; /*Necessary.  100vh = 100% of the viewport height*/
     padding: 0; /* No padding */
     margin: 0; /* No margins */
-    background: url("main.svg") no-repeat;  
+    background: url("main.svg") repeat;  
     background-size: cover; /* Cover all available space*/
 }
 
@@ -44,6 +44,7 @@ label {
     height: auto;
     border: solid 1px black;
     background: #A4BDBE;
+    z-index: 1; /* Puts create task popup in front of tasks */
 }
 
 #cancel {
@@ -72,7 +73,7 @@ label {
     background: #D5B9B1;
     border: solid 1px black;
     position: absolute;
-    top: 90%;
+    top: 95%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -102,10 +103,44 @@ label {
     background: #578f8f;
 }
 
+#taskGrid {
+    display: grid;
+    grid-template-columns: 315px 315px 315px 315px;
+    grid-template-rows: 189px 189px 189px 189px;
+    column-gap: 20px;
+    row-gap: 20px;
+    position: absolute;
+    top: 30vh;
+}
+
 .task {
+    position: relative;
     border-radius: 20px;
     background: #457373;
+    color: white;
+    border: solid 1px black;
     padding: 20px;
     width: 315px;
     height: 189px;
+}
+
+.taskHeader {
+    position: absolute;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.deleteTaskButton {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+    border: solid 1px black;
+}
+
+.deleteTaskButton:hover {
+    background: #578f8f;
 }

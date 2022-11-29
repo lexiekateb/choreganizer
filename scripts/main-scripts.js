@@ -4,8 +4,44 @@ $(function() {
         url: 'main',
         contentType: 'application/json',
         success: function(response) {
-            //Placeholder, use this list to add tasks to front end
             console.log(response);
+            let taskGrid = $('#taskGrid');
+
+            // Clear all tasks
+            taskGrid.html('');
+
+            // Iterate through each task
+            response.forEach(function(task) {
+                var taskColor;
+                if (task.timeRemaining > 7) {
+                    // Set color of task background to green
+                    taskColor = "background:#457373";
+                }
+                else if (task.timeRemaining > 3) {
+                    // Set color of task background to light green
+                    taskColor = "background:#a2c0c0";
+                }
+                else if (task.timeRemaining > 0) {
+                    // Set color of task background to light red
+                    taskColor = "background:#D5B9B1";
+                }
+                else {
+                    // Set color of task background to red
+                    taskColor = "background:#b5887b"
+                }
+
+                // Append the task to the grid
+                // Due date should be split by 'T' to remove time section
+                taskGrid.append('\
+                <div class="task" id="' + task._id + '" style="' + taskColor + '">\
+                    <div class="taskHeader">' + task.task + '</div><br>\
+                    Due Date: ' + task.dueDate.split('T')[0] + '<br>\
+                    Time Remaining: ' + task.timeRemaining + '<br>\
+                    Difficulty: ' + task.difficulty + '<br>\
+                    Tags: ' + task.tags +
+                    '<button class="deleteTaskButton" type="button" onclick="deleteTask(this)">X</button>\
+                </div>');
+            })
         }
     });
 
@@ -35,14 +71,52 @@ $(function() {
                 tags: tags
             }),
             success: function(response) {
-                if (response === "Task created") {
+                console.log(response)
+                if (response["result"] === "Task created") {
                     //Clear fields
                     $('#taskName').val("");
                     $('#taskDifficulty').val("");
                     $('#taskDueDate').val("");
                     $('#tags').html('');
 
-                    alert(response);
+                    alert(response["result"]);
+
+                    //Close the form
+                    $('#taskPopupForm').css("display", "none");
+
+                    //Prepare to add new task to grid
+                    let taskGrid = $('#taskGrid');
+                    var newTask = response["newTask"];
+                    var taskColor;
+
+                    if (newTask.timeRemaining > 7) {
+                        // Set color of task background to green
+                        taskColor = "background:#457373";
+                    }
+                    else if (newTask.timeRemaining > 3) {
+                        // Set color of task background to light green
+                        taskColor = "background:#a2c0c0";
+                    }
+                    else if (newTask.timeRemaining > 0) {
+                        // Set color of task background to light red
+                        taskColor = "background:#D5B9B1";
+                    }
+                    else {
+                        // Set color of task background to red
+                        taskColor = "background:#b5887b"
+                    }
+    
+                    // Append the task to the grid
+                    // Due date should be split by 'T' to remove time section
+                    taskGrid.append('\
+                    <div class="task" id="' + newTask._id + '" style="' + taskColor + '">\
+                        <div class="taskHeader">' + newTask.task + '</div><br>\
+                        Due Date: ' + newTask.dueDate.split('T')[0] + '<br>\
+                        Time Remaining: ' + newTask.timeRemaining + '<br>\
+                        Difficulty: ' + newTask.difficulty + '<br>\
+                        Tags: ' + newTask.tags +
+                        '<button class="deleteTaskButton" type="button" onclick="deleteTask(this)">X</button>\
+                    </div>');
                 }
                 else {
                     alert(response);
@@ -52,6 +126,27 @@ $(function() {
                 console.log(err.status);
                 console.log(errText);
                 console.log(errThrown);
+            }
+        });
+    });
+
+    // Listen for click from button descendents of taskGrid
+    $('#taskGrid').on('click', 'button', function() {
+        // Store parent of button to delete it later
+        let taskItem = this.parentNode;
+        // Get ID of the task to delete
+        let taskID = taskItem.id;
+
+        $.ajax({
+            url: '/deletetask',
+            method: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({ taskID: taskID }),
+            success: function(response) {
+                if (response === "Successfully deleted") {
+                    // Delete task from HTML if successful
+                    taskItem.remove();
+                }
             }
         });
     });

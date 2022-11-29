@@ -31,6 +31,10 @@
                     alert("You can add a maximum of 5 tags");
                 }
             }
+
+            function deleteTask(button) {
+                //button.parentElement.remove();
+            }
         </script>
         <script
             src="https://code.jquery.com/jquery-3.6.1.js"
@@ -91,7 +95,7 @@
                             </label>
                             <br>
                             <button type="button" onclick="createtag();">create tag</button>
-                            <l id="tags"></l>
+                            <l id="tags" style="list-style: none"></l>
                             <br>
                             
                             <br>
@@ -101,7 +105,8 @@
                 </div>
             </div>
             
-            <div class="tasks" id="tasks"></div>
+            <div class="taskGrid" id="taskGrid">
+            </div>
             
         </div>
         

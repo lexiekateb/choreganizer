@@ -4,10 +4,33 @@ let Task = require('../schemas/task-schema');
 
 //Activate upon main page reload
 router.get('/main', function(req, res) {
-    //Find all tasks under current user, send them
+    //Find all tasks under current user
     Task.find({ userName: req.app.locals.currentUser })
     .then(tasks => {
-        res.send(tasks);
+        //Update time remaining for all tasks
+        tasks.forEach(function(task) {
+            //Calculate new remaining time per task
+            var newTime = calcDaysRemaining(new Date().setUTCHours(0, 0, 0, 0),
+            task.dueDate);
+
+            //Update days remaining
+            Task.updateOne({ _id: task._id },
+                { $set: { timeRemaining: newTime } })
+                .then(result => {
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        })
+
+        //Find and send all updated tasks
+        Task.find({ userName: req.app.locals.currentUser })
+        .then(updatedTasks => {
+            res.send(updatedTasks);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     })
     .catch(err => {
         console.log(err);
@@ -55,7 +78,8 @@ router.post('/taskcreate', function(req, res) {
 
         newTask.save()
         .then(newTask => {
-            res.send("Task created");
+            // Send new task to display
+            res.send({ result: "Task created", newTask: newTask});
         })
         .catch(err => {
             console.log(err);
@@ -63,6 +87,20 @@ router.post('/taskcreate', function(req, res) {
     }
 
     
+});
+
+//Delete tasks
+router.delete('/deletetask', function(req, res) {
+    let taskID = req.body.taskID;
+
+    //Delete task using the passed ID
+    Task.deleteOne({ _id: taskID })
+    .then(result => {
+        res.send("Successfully deleted");
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 //Search for tasks
